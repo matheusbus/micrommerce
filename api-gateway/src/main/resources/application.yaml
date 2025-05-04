@@ -13,20 +13,15 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/api/auth/**
-          filters:
-            - StripPrefix=1
 
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/api/orders/**
           filters:
-            - StripPrefix=1
+            - AuthenticationFilter
 
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka
-
-server:
-  port: 8080
