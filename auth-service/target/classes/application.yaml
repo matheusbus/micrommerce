@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: auth-service
+  cloud:
+    discovery:
+      enabled: true
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: true
+
+jwt:
+  private:
+    key: classpath:app.key
+  public:
+    key: classpath:app.pub
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka

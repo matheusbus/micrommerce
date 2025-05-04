@@ -1,0 +1,17 @@
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\AuthServiceApplication.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\config\GlobalExceptionHandler.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\config\SecurityConfig.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\AuthController.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\PrivateController.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthRequest.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthResponse.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\ErrorResponse.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\RegisterRequest.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\UserAlreadyExistsException.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\UserNotFoundException.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\model\User.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\model\UserAuthenticated.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\repository\UserRepository.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\service\AuthService.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\service\JwtService.java
+C:\Users\mathe\Documents\Projetos\micrommerce\auth-service\src\main\java\com\esw\authservice\service\UserDetailsServiceImpl.java
