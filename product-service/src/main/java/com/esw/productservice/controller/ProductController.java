@@ -1,11 +1,13 @@
 package com.esw.productservice.controller;
 
+import com.esw.productservice.dto.product.ProductCreateRequest;
+import com.esw.productservice.dto.product.ProductUpdateRequest;
 import com.esw.productservice.model.Product;
 import com.esw.productservice.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +20,31 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<List<Product>> findAll() {
-        return null;
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(productService.findAll());
+    }
+
+    @GetMapping(value = "/id/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductCreateRequest request) {
+        Product product = productService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+    @PatchMapping(value = "/id/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateRequest request) {
+        Product product = productService.update(id, request);
+        return ResponseEntity.ok(product);
+    }
+
+    @DeleteMapping(value = "/id/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

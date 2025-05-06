@@ -1,8 +1,11 @@
 package com.esw.productservice.model;
 
+import com.esw.productservice.validation.NoOffensiveLanguage;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,16 +16,23 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    @NoOffensiveLanguage
     private String name;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+    private Date createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 
     public Category() {}
 
-    public Category(Long id, String name, List<Product> products) {
+    public Category(Long id, String name, Date createdAt, List<Product> products) {
         this.id = id;
         this.name = name;
+        this.createdAt = createdAt;
         this.products = products;
     }
 
@@ -40,6 +50,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<Product> getProducts() {
@@ -67,6 +85,7 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", createdAt=" + createdAt +
                 ", products=" + products +
                 '}';
     }

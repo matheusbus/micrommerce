@@ -1,6 +1,8 @@
 package com.esw.productservice.model;
 
+import com.esw.productservice.validation.NoOffensiveLanguage;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -15,11 +17,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
+    @NoOffensiveLanguage
     private String name;
 
+    @Column(nullable = false)
+    @NoOffensiveLanguage
     private String description;
 
+    @Column(nullable = false, precision = 10, scale = 4)
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     private BigDecimal price;
 
     @ColumnDefault(value = "true")
