@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -101,5 +102,9 @@ public class ProductService {
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException("Validation failed", violations);
         }
+    }
+
+    private boolean existsWithPublicId(UUID value) {
+        return this.productRepository.findByPublicId(value).isPresent();
     }
 }

@@ -26,7 +26,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
-    @GetMapping(value = "/id/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.findById(id));
     }
@@ -37,13 +37,13 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
-    @PatchMapping(value = "/id/{id}")
+    @PatchMapping(value = "/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryUpdateRequest request) {
         Category category = categoryService.update(id, request);
         return ResponseEntity.ok(category);
     }
 
-    @DeleteMapping(value = "/id/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();

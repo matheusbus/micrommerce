@@ -1,6 +1,7 @@
 package com.esw.productservice.model;
 
 import com.esw.productservice.validation.NoOffensiveLanguage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -25,6 +26,7 @@ public class Category {
     private Date createdAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Product> products = new ArrayList<>();
 
     public Category() {}

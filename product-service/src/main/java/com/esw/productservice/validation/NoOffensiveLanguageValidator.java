@@ -21,17 +21,17 @@ public class NoOffensiveLanguageValidator implements ConstraintValidator<NoOffen
                 List<String> badWords = new BufferedReader(new InputStreamReader(is))
                         .lines()
                         .map(String::trim)
-                        .filter(line -> line.isBlank())
+                        .filter(s -> !s.isBlank())
                         .map(Pattern::quote)
                         .toList();
 
                 String joinedBadWords = String.join("|", badWords);
                 pattern = Pattern.compile("\\b(" + joinedBadWords + ")\\b", Pattern.CASE_INSENSITIVE);
             } else {
-                pattern = Pattern.compile("a^");
+                pattern = Pattern.compile("");
             }
         } catch (Exception e) {
-            pattern = Pattern.compile("a^");
+            pattern = Pattern.compile("");
         }
     }
 

@@ -1,13 +1,17 @@
 package com.esw.productservice.model;
 
 import com.esw.productservice.validation.NoOffensiveLanguage;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GeneratedColumn;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "products")
@@ -16,6 +20,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "public_id", unique = true, nullable = false, updatable = false)
+    private UUID publicId;
 
     @Column(nullable = false, unique = true)
     @NoOffensiveLanguage
@@ -40,10 +47,18 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @PrePersist
+    private void generatePublicId() {
+        if(this.publicId == null) {
+            this.publicId = UUID.randomUUID();
+        }
+    }
+
     public Product() {}
 
-    public Product(Long id, String name, String description, BigDecimal price, boolean active, Date createdAt, Category category) {
+    public Product(Long id, UUID publicId, String name, String description, BigDecimal price, boolean active, Date createdAt, Category category) {
         this.id = id;
+        this.publicId = publicId;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -58,6 +73,14 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public UUID getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(UUID publicId) {
+        this.publicId = publicId;
     }
 
     public String getName() {
@@ -124,6 +147,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
+                ", publicId='" + publicId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
