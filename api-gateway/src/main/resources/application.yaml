@@ -1,13 +1,18 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: api-gateway
-
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+    loadbalancer:
+      ribbon:
+         enabled: true
       routes:
         - id: auth-service
           uri: lb://auth-service
@@ -20,6 +25,31 @@ spring:
             - Path=/api/orders/**
           filters:
             - AuthenticationFilter
+
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - AuthenticationFilter
+    security:
+      oauth2:
+        client:
+          registration:
+            auth-service:
+              client-id: your-client-id
+              client-secret: your-client-secret
+              scope: read,write
+              authorization-grant-type: authorization_code
+              redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+          provider:
+            auth-service:
+              authorization-uri: http://auth-service:8080/oauth2/authorize
+              token-uri: http://auth-service:8080/oauth2/token
+              user-info-uri: http://auth-service:8080/userinfo
+          resourceserver:
+            jwt:
+              jwk-set-uri: http://auth-service:8080/.well-known/jwks.json
 
 eureka:
   client:
