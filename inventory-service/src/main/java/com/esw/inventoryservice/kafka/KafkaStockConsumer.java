@@ -1,9 +1,6 @@
 package com.esw.inventoryservice.kafka;
 
-import com.esw.inventoryservice.dto.OrderCreatedEvent;
-import com.esw.inventoryservice.dto.PaymentCompletedEvent;
-import com.esw.inventoryservice.dto.PaymentFailedEvent;
-import com.esw.inventoryservice.dto.ReserveStockRequest;
+import com.esw.inventoryservice.dto.*;
 import com.esw.inventoryservice.exception.NotFoundException;
 import com.esw.inventoryservice.model.Inventory;
 import com.esw.inventoryservice.repository.InventoryRepository;
@@ -24,13 +21,15 @@ public class KafkaStockConsumer {
 
     @KafkaListener(topics = "order-created", groupId = "inventory-group")
     public void handleOrderCreated(OrderCreatedEvent event) {
-        ReserveStockRequest request = new ReserveStockRequest(
-            event.productId(),
-            event.quantity(),
-            event.orderId()
-        );
+        for (OrderItemDTO itemDTO: event.items()) {
+            ReserveStockRequest request = new ReserveStockRequest(
+                    itemDTO.productId(),
+                    itemDTO.quantity(),
+                    event.orderId()
+            );
 
-        reserveStockUseCase.handle(request);
+            reserveStockUseCase.handle(request);
+        }
     }
 
     @KafkaListener(topics = "payment-failed", groupId = "inventory-group")

@@ -3,6 +3,8 @@ package com.esw.inventoryservice.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.util.UUID;
+
 public record ReserveStockRequest(
     @NotNull(message = "ProductId is required")
     Long productId,
@@ -11,5 +13,5 @@ public record ReserveStockRequest(
     @Positive(message = "Quantity must be a positive integer")
     int quantity,
 
-    Long orderId
+    UUID orderId
 ) {}

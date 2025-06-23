@@ -1,6 +1,9 @@
 package com.esw.orderservice.usecase;
 
 import com.esw.orderservice.dto.CreateOrderRequest;
+import com.esw.orderservice.dto.OrderCreatedEvent;
+import com.esw.orderservice.dto.OrderItemDTO;
+import com.esw.orderservice.kafka.KafkaOrderProducer;
 import com.esw.orderservice.model.Order;
 import com.esw.orderservice.model.OrderItem;
 import com.esw.orderservice.model.OrderStatus;
@@ -14,9 +17,11 @@ import java.util.List;
 public class CreateOrderUseCase {
 
     private final OrderRepository repository;
+    private final KafkaOrderProducer kafkaOrderProducer;
 
-    public CreateOrderUseCase(OrderRepository repository) {
+    public CreateOrderUseCase(OrderRepository repository, KafkaOrderProducer kafkaOrderProducer) {
         this.repository = repository;
+        this.kafkaOrderProducer = kafkaOrderProducer;
     }
 
     public Order handle(CreateOrderRequest request) {
@@ -43,17 +48,15 @@ public class CreateOrderUseCase {
 
         Order saved = repository.save(order);
 
-        /*
-        kafkaTemplate.send("order.created", new OrderCreatedEvent(
-                saved.getId(),
-                saved.getUserId(),
-                total,
-                saved.getItems().stream().map(i ->
-                        new OrderCreatedEvent.OrderItemDTO(i.getProductId(), i.getQuantity())
-                ).toList()
-        ));
-        */
+        kafkaOrderProducer.publishOrderCreated(mapToEvent(order));
 
         return saved;
+    }
+
+    private OrderCreatedEvent mapToEvent(Order order) {
+        List<OrderItemDTO> items = order.getItems().stream()
+                .map(i -> new OrderItemDTO(i.getProductId(),i.getQuantity(), i.getPrice())).toList();
+
+        return new OrderCreatedEvent(order.getId(), order.getUserId(), items, order.getTotalAmount());
     }
 }

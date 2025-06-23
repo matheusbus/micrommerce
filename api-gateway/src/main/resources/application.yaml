@@ -19,6 +19,20 @@ spring:
           predicates:
             - Path=/api/auth/**
 
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - AuthenticationFilter
+
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/inventory/**
+          filters:
+            - AuthenticationFilter
+
         - id: order-service
           uri: lb://order-service
           predicates:
@@ -26,12 +40,13 @@ spring:
           filters:
             - AuthenticationFilter
 
-        - id: product-service
-          uri: lb://product-service
+        - id: payment-service
+          uri: lb://payment-service
           predicates:
-            - Path=/api/products/**
+            - Path=/api/payment/**
           filters:
             - AuthenticationFilter
+
     security:
       oauth2:
         client:

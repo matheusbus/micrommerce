@@ -22,18 +22,20 @@ spring:
       settings:
         web-allow-others: true
 
-  #  kafka:
-  #    bootstrap-servers: kafka:9092
-  #    consumer:
-  #      group-id: order-group
-  #      auto-offset-reset: earliest
-  #      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  #      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-  #      properties:
-  #        spring.json.trusted.packages: "*"
-  #    producer:
-  #      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-  #      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: order-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        retry.backoff.ms: 5000
+        reconnect.backoff.ms: 5000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 eureka:
   client:

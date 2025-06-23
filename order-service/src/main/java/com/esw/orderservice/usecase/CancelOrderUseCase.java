@@ -1,12 +1,14 @@
 package com.esw.orderservice.usecase;
 
+import com.esw.orderservice.dto.OrderCancelledEvent;
+import com.esw.orderservice.dto.OrderItemDTO;
 import com.esw.orderservice.exception.NotFoundException;
 import com.esw.orderservice.exception.OrderCancellationNotAllowedException;
+import com.esw.orderservice.kafka.KafkaOrderProducer;
 import com.esw.orderservice.model.Order;
 import com.esw.orderservice.model.OrderStatus;
 import com.esw.orderservice.observer.OrderObserver;
 import com.esw.orderservice.repository.OrderRepository;
-import com.esw.orderservice.service.OrderStatusManager;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +22,13 @@ import java.util.UUID;
 public class CancelOrderUseCase {
 
     private final OrderRepository repository;
-    private final OrderStatusManager orderStatusManager;
     private final List<OrderObserver> observers;
+    private final KafkaOrderProducer kafkaOrderProducer;
 
-    public CancelOrderUseCase(OrderRepository repository, OrderStatusManager orderStatusManager, List<OrderObserver> observers) {
+    public CancelOrderUseCase(OrderRepository repository, List<OrderObserver> observers, KafkaOrderProducer kafkaOrderProducer) {
         this.repository = repository;
-        this.orderStatusManager = orderStatusManager;
         this.observers = observers;
+        this.kafkaOrderProducer = kafkaOrderProducer;
     }
 
     @Transactional
@@ -53,6 +55,15 @@ public class CancelOrderUseCase {
 
         repository.save(order);
 
+        kafkaOrderProducer.publishOrderCancelled(mapToEvent(order));
+
         observers.forEach(observer -> observer.onOrderStatusChanged(order, oldStatus, newStatus));
+    }
+
+    private OrderCancelledEvent mapToEvent(Order order) {
+        List<OrderItemDTO> items = order.getItems().stream()
+                .map(i -> new OrderItemDTO(i.getProductId(),i.getQuantity(), i.getPrice())).toList();
+
+        return new OrderCancelledEvent(order.getId(), order.getUserId(), items, order.getTotalAmount());
     }
 }
