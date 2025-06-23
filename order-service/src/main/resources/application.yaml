@@ -1,0 +1,11 @@
+# SERVER
+server:
+  port: 8085
+
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: true

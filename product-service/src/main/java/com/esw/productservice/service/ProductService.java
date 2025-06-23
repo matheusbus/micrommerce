@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -43,6 +40,18 @@ public class ProductService {
         }
 
         return productRepository.findAll();
+    }
+
+    public List<Product> findAllByCategoryId(Long categoryId) {
+        Category category = categoryService.findById(categoryId);
+
+        Optional<List<Product>> products = productRepository.findByCategory(category);
+
+        if (products.isEmpty()) {
+            throw new NotFoundException("No products found");
+        }
+
+        return products.get();
     }
 
     @Transactional
@@ -87,7 +96,11 @@ public class ProductService {
 
         validate(product);
 
-        return productRepository.save(product);
+        if(product.getCreatedAt() == null) {
+            product.setCreatedAt(new Date());
+        }
+
+        return product;
     }
 
     private void validateIfProductExistsByName(String name) {

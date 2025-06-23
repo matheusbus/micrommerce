@@ -1,10 +1,9 @@
 package com.esw.authservice.service;
 
+import com.esw.authservice.exception.InvalidJwtException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,9 +12,11 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
     private final JwtEncoder jwtEncoder;
+    private final JwtDecoder jwtDecoder;
 
-    public JwtService(JwtEncoder jwtEncoder) {
+    public JwtService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
         this.jwtEncoder = jwtEncoder;
+        this.jwtDecoder = jwtDecoder;
     }
 
     public String generateToken(Authentication authentication) {
@@ -35,5 +36,17 @@ public class JwtService {
             .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public Jwt validateToken(final String token) {
+        try {
+            Jwt jwt = jwtDecoder.decode(token);
+            if (!"auth-service".equals(jwt.getIssuer().toString())) {
+                throw new InvalidJwtException("Invalid token issuer.");
+            }
+            return jwt;
+        } catch (JwtException ex) {
+            throw new InvalidJwtException("Token is not valid or expired.", ex);
+        }
     }
 }

@@ -7,8 +7,12 @@ import com.esw.authservice.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,13 +31,25 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest request) {
-        String token = authService.authenticate(request);
-        return ResponseEntity.ok(new AuthResponse("User logged in successfully", token));
+        AuthResponse response = authService.authenticate(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
-        String token = authService.register(request);
-        return ResponseEntity.ok(new AuthResponse("User registered successfully", token));
+        AuthResponse response = authService.register(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<?> validate(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Jwt jwt = authService.validateToken(token);
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Token is valid.",
+                "subject", jwt.getSubject(),
+                "scopes", jwt.getClaimAsString("scopes")
+        ));
     }
 }

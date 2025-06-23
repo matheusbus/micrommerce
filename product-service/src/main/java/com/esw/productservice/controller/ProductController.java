@@ -30,6 +30,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.findById(id));
     }
 
+    @GetMapping(params = "categoryId")
+    public ResponseEntity<List<Product>> getAllProductsByCategoryId(@RequestParam Long categoryId) {
+        return ResponseEntity.ok(productService.findAllByCategoryId(categoryId));
+    }
+
     @PostMapping
     public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductCreateRequest request) {
         Product product = productService.save(request);

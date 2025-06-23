@@ -1,5 +1,6 @@
 package com.esw.productservice.repository;
 
+import com.esw.productservice.model.Category;
 import com.esw.productservice.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<List<Product>> findByCategory_Id(Long categoryId);
     Optional<Product> findByName(String name);
     Optional<Product> findByPublicId(UUID publicId);
+    Optional<List<Product>> findByCategory(Category category);
 }

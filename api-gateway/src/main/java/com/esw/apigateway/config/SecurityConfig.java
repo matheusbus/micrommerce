@@ -26,7 +26,8 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/api/auth/**").permitAll()
                         .pathMatchers("/api/products/**").permitAll()
-                        .anyExchange().authenticated()
+                        .pathMatchers("/orders/**").authenticated()
+                        .anyExchange().denyAll()
                 )
                 .oauth2ResourceServer(
                         conf -> conf.jwt(Customizer.withDefaults())

@@ -37,18 +37,22 @@ public class User {
     @ColumnDefault(value = "true")
     private boolean active;
 
+    @Column(name = "type")
+    private Short type;
+
     @Temporal(TemporalType.TIMESTAMP)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdAt;
 
     public User() {}
 
-    public User(Long id, String username, String email, String password, String role, boolean active, Date createdAt) {
+    public User(Long id, String username, String email, String password, String role, UserType type, boolean active, Date createdAt) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.type = type.getValue();
         this.active = active;
         this.createdAt = createdAt;
     }
@@ -93,6 +97,14 @@ public class User {
         this.role = role;
     }
 
+    public UserType getType() {
+        return UserType.valueOf(type);
+    }
+
+    public void setType(UserType type) {
+        this.type = type.getValue();
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -130,6 +142,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", active=" + active +
+                ", type=" + type +
                 ", createdAt=" + createdAt +
                 '}';
     }

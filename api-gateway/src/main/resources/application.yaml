@@ -10,9 +10,9 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-    loadbalancer:
-      ribbon:
-         enabled: true
+    #loadbalancer:
+      #ribbon:
+         #enabled: true
       routes:
         - id: auth-service
           uri: lb://auth-service
