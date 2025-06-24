@@ -21,6 +21,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   product-service:
+    container_name: product-service
     build: ./product-service
     ports:
       - "8081:8081"
@@ -28,6 +29,7 @@ services:
       - kafka
 
   inventory-service:
+    container_name: inventory-service
     build: ./inventory-service
     ports:
       - "8083:8083"
@@ -36,12 +38,14 @@ services:
 
   order-service:
     build: ./order-service
+    container_name: order-service
     ports:
       - "8085:8085"
     depends_on:
       - kafka
 
   payment-service:
+    container_name: payment-service
     build: ./payment-service
     ports:
       - "8086:8086"
@@ -49,6 +53,7 @@ services:
       - kafka
 
   api-gateway:
+    container_name: api-gateway
     build: ./api-gateway
     ports:
       - "8080:8080"
@@ -59,6 +64,7 @@ services:
       - payment-service
 
   eureka-server:
+    container_name: eureka-server
     build: ./eureka-server
     ports:
       - "8761:8761"
@@ -70,6 +76,7 @@ services:
       - api-gateway
 
   auth-service:
+    container_name: auth-service
     build: ./auth-service
     ports:
       - "8082:8082"
