@@ -1,7 +1,7 @@
-com\esw\authservice\repository\UserRepository.class
-com\esw\authservice\service\JwtService.class
-com\esw\authservice\dto\RegisterRequest.class
+com\esw\authservice\model\UserType.class
 com\esw\authservice\dto\AuthResponse.class
+com\esw\authservice\exception\ApiErrorResponse$FieldError.class
+com\esw\authservice\exception\InvalidJwtException.class
 com\esw\authservice\AuthServiceApplication.class
 com\esw\authservice\controller\AuthController.class
 com\esw\authservice\exception\UserAlreadyExistsException.class
@@ -13,5 +13,10 @@ com\esw\authservice\service\AuthService.class
 com\esw\authservice\service\UserDetailsServiceImpl.class
 com\esw\authservice\controller\PrivateController.class
 com\esw\authservice\model\UserAuthenticated.class
+com\esw\authservice\repository\UserRepository.class
+com\esw\authservice\service\JwtService.class
+com\esw\authservice\exception\ApiErrorResponse.class
+com\esw\authservice\dto\RegisterRequest.class
+com\esw\authservice\dto\UserDTO.class
 com\esw\authservice\config\GlobalExceptionHandler.class
 com\esw\authservice\dto\AuthRequest.class

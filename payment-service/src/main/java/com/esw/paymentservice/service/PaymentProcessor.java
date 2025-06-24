@@ -24,7 +24,6 @@ public class PaymentProcessor {
         if (strategy == null) {
             throw new PaymentException("Payment method not supported: " + key);
         }
-
         return strategy.process(request);
     }
 }

@@ -12,6 +12,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.esw.productservice.factory.ProductFactory;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -21,11 +22,14 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final Validator validator;
+    private final ProductFactory productFactory;
 
-    public ProductService(ProductRepository productRepository, CategoryService categoryService, Validator validator) {
+
+    public ProductService(ProductRepository productRepository, CategoryService categoryService, Validator validator, ProductFactory productFactory) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
         this.validator = validator;
+        this.productFactory = productFactory;
     }
 
     public Product findById(Long id) {
@@ -57,8 +61,9 @@ public class ProductService {
     @Transactional
     public Product save(ProductCreateRequest request) {
         validateIfProductExistsByName(request.name());
-        Product product = new Product();
-        product = getProduct(product, request.name(), request.price(), request.description(), request.categoryId());
+        Product product = productFactory.createProduct(request);
+        //Product product = new Product();
+        //product = getProduct(product, request.name(), request.price(), request.description(), request.categoryId());
 
         return productRepository.save(product);
     }
