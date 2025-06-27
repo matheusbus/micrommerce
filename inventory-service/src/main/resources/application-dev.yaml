@@ -23,8 +23,8 @@ spring:
         web-allow-others: true
 
   kafka:
-    #bootstrap-servers: kafka:9092 # para rodar a aplicação
-    bootstrap-servers: localhost:9092 # para testar só esse serviço
+    bootstrap-servers: kafka:9092 # para rodar a aplicação
+    #bootstrap-servers: localhost:9092 # para testar só esse serviço
     consumer:
       group-id: inventory-group
       auto-offset-reset: earliest
