@@ -1,9 +1,9 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: auth-service
-  cloud:
-    discovery:
-      enabled: true
   profiles:
     active: dev
   jpa:
@@ -15,7 +15,8 @@ jwt:
   public:
     key: classpath:app.pub
 
+
 eureka:
   client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/

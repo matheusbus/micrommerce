@@ -88,4 +88,13 @@ public class AuthService {
         user.setCreatedAt(Date.from(java.time.Instant.now()));
         userRepository.save(user);
     }
+
+    public UserDTO getUserFromToken(Jwt jwt) {
+        String email = jwt.getSubject();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+
+        return new UserDTO(user);
+    }
 }

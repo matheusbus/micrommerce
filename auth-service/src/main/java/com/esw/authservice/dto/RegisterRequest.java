@@ -2,6 +2,7 @@ package com.esw.authservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
@@ -16,6 +17,6 @@ public record RegisterRequest(
     @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
     String password,
 
-    @NotBlank(message = "User type cannot be blank")
+    @NotNull(message = "User type cannot be blank")
     Short type
 ) {}

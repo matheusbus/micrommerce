@@ -3,6 +3,7 @@ package com.esw.authservice.controller;
 import com.esw.authservice.dto.AuthRequest;
 import com.esw.authservice.dto.AuthResponse;
 import com.esw.authservice.dto.RegisterRequest;
+import com.esw.authservice.dto.UserDTO;
 import com.esw.authservice.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +44,15 @@ public class AuthController {
 
     @PostMapping("/validate")
     public ResponseEntity<?> validate(@RequestHeader("Authorization") String authHeader) {
+        System.out.println("Validação de token em andamento...");
         String token = authHeader.replace("Bearer ", "");
         Jwt jwt = authService.validateToken(token);
 
+        UserDTO user = authService.getUserFromToken(jwt);
+
         return ResponseEntity.ok(Map.of(
                 "message", "Token is valid.",
+                "user", user,
                 "subject", jwt.getSubject(),
                 "scopes", jwt.getClaimAsString("scopes")
         ));

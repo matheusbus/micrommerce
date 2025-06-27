@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: inventory-service
@@ -6,11 +9,9 @@ spring:
   jpa:
     open-in-view: true
 
-# SERVER
-server:
-  port: 8083
-
 eureka:
   client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

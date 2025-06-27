@@ -28,7 +28,7 @@ public class JwtService {
             .collect(Collectors.joining(" "));
 
         var claims = JwtClaimsSet.builder()
-            .issuer("auth-service")
+            .issuer("http://auth-service")
             .issuedAt(now)
             .expiresAt(now.plusSeconds(expiry))
             .subject(authentication.getName())
@@ -41,7 +41,7 @@ public class JwtService {
     public Jwt validateToken(final String token) {
         try {
             Jwt jwt = jwtDecoder.decode(token);
-            if (!"auth-service".equals(jwt.getIssuer().toString())) {
+            if (!"http://auth-service".equals(jwt.getIssuer().toString())) {
                 throw new InvalidJwtException("Invalid token issuer.");
             }
             return jwt;
