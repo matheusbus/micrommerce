@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # 🛒 Micrommerce
 
 Micrommerce é uma aplicação de e-commerce construída com arquitetura de microsserviços, projetada para demonstrar uma estrutura escalável e resiliente. A solução é composta por serviços independentes responsáveis por autenticação, catálogo de produtos, controle de estoque, pedidos e pagamentos. Todos os serviços se comunicam por meio de um gateway central e utilizam registro de serviços com Eureka.
@@ -72,3 +73,10 @@ Este projeto está licenciado sob a MIT License.
 - @matheusbus
 - @rdalmarco
 - @EduardoSangaletti
+=======
+# MICROMMERCE
+
+Aplicação baseada em Microsserviços no cont
+exto de um E-commerce
+![diagrama-componentes.png](docs/diagrama-componentes.png)
+>>>>>>> Stashed changes
