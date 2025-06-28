@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # 🛒 Micrommerce
 
 Micrommerce é uma aplicação de e-commerce construída com arquitetura de microsserviços, projetada para demonstrar uma estrutura escalável e resiliente. A solução é composta por serviços independentes responsáveis por autenticação, catálogo de produtos, controle de estoque, pedidos e pagamentos. Todos os serviços se comunicam por meio de um gateway central e utilizam registro de serviços com Eureka.
@@ -26,6 +25,10 @@ Micrommerce é uma aplicação de e-commerce construída com arquitetura de micr
 | `payment-service` | `8085`       | Processamento de pagamentos.                              |
 | `eureka-server`   | `8761`       | Registro e descoberta dos serviços.                       |
 | `kafka` / `zookeeper` | `9092` / `2181` | Infraestrutura de mensageria assíncrona.              |
+
+## Diagrama do Sistema
+
+![diagrama-componentes.png](docs/diagrama-componentes.png)
 
 ## ▶️ Como Executar o Projeto
 
