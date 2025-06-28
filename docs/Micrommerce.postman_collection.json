@@ -1,0 +1,932 @@
+{
+	"info": {
+		"_postman_id": "8b78701b-7014-457e-bfbf-cda2e3d4c628",
+		"name": "Micrommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26181233",
+		"_collection_link": "https://lively-trinity-230752.postman.co/workspace/Team-Workspace~a6d4acd5-4f03-4d51-8de8-af250718aa53/collection/26181233-8b78701b-7014-457e-bfbf-cda2e3d4c628?action=share&source=collection_link&creator=26181233"
+	},
+	"item": [
+		{
+			"name": "Auth-Service",
+			"item": [
+				{
+					"name": "Private EndPoint",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYXV0aC1zZXJ2aWNlIiwic3ViIjoidXN1YXJpb3Rlc3RlQGVtYWlsLmNvbSIsInNjb3BlcyI6IlVTRVIiLCJleHAiOjE3NTA5OTg4MTcsImlhdCI6MTc1MDk5NTIxN30.dhqqCeU38uN-X3HvKsOTHHRgnNgPt4V_xnL-3DBnlSkZkapC-MBQe5CK9UmRSkng3UPi4Z-4jdryCWJkhsa0YfEp7Pcl5F04WCezAggmwFT_V9tuNyCrNDgIpos0aMW87gg0SldjWdMvQwcseZDURuWY3FqAnLWePKRJWXKhnN25ZAe4ByvVfYizmS1RACXL6vYLVMtCLqONgeCadzJ4Veoru4r5Epy2n7IukrlDGYIIPIZUV7Q20AG7GKuhFYhY5on8OAoa2mdPRh-jjugd3jHkueOpHFElNECwRh1ugJZXg8Msyj29tgKsN4kN8cXzoEfR1DfGVoA5E4ShxBGQ_A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_dev}}/private/hello",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"private",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_dev}}/api/auth/me",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"vendedor@email.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/auth/login",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Usuário Teste\",\r\n    \"email\": \"usuarioteste@email.com\",\r\n    \"password\": \"teste123\",\r\n    \"type\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/auth/register",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/auth/validate",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product-Service",
+			"item": [
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "Find All",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYXV0aC1zZXJ2aWNlIiwic3ViIjoidmVuZGVkb3JAZW1haWwuY29tIiwic2NvcGVzIjoiVVNFUiIsImV4cCI6MTc1MTAwNjY1NiwiaWF0IjoxNzUxMDAzMDU2fQ.d5yYM7s2HgkGrnXrUwY16T4ScAnsevJYso481w_3e2LkAwwSwyBzV4j3d-LePDmalHYrLUBtzvBJQd8L4q9wsif6yGkyzMks4FMCLYcwL1b_LAWiJTF0JV2RhLCpEnHXoWDHjh-Yr01LV7tJJC8A-SKNAXQKZGx2hCTGcq5XTx0pERd_hsnZEU_W0t8CYcP-BT36KhyWf1zey9tRZ0mRScDnr_UqOOqEuTYPhOYK3SWlBbXBUjvSplDPQD9EuYWAPym5AtljAzLDOdolqCjAf9adNCKmoBhvtNCOY8CdjrVos6HzOZAhHujUKUzyLY6bttNKx1zNqzCPdHE-zSzYlA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url_dev}}/api/categories",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_dev}}/api/categories/1",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										"1"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Categoria Teste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_dev}}/api/categories",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Atualização de Categoria\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_dev}}/api/categories/:id",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_dev}}/api/categories/:id",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Products",
+					"item": [
+						{
+							"name": "Find All",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYXV0aC1zZXJ2aWNlIiwic3ViIjoidmVuZGVkb3JAZW1haWwuY29tIiwic2NvcGVzIjoiVVNFUiIsImV4cCI6MTc1MTAwNTU4NiwiaWF0IjoxNzUxMDAxOTg2fQ.kZSmN05ivDIdg1iBFQZ9jZFgN4YW5_DceeJ4rIx5pE7vJT4tCyHG5QuRB0Cethi-sDtte0ISWml6ojNlGCSwLpy_ZBE1wsyDOqHURwNfXpTWAWOYE4bmLdgipxPmAKvN4FC00slODvTDwYQ9FF0JNcnyBoraO54reDd9Q4RinUahpe02pG_8jXz6PopH4G2awgsZaI66PK7B1VFmz1CMJRz5AvWQsf6z_W0o1otFoZ4QLqEGBh4glKq2y2byUk1C8L8Os0ayjNkqlQi_V8jvrxNT0hgDSWNxJAlaMxsvDlipUJtmTNwP3YnqvA7fHinFX9ShOOShva1m5Nr16g9uWg",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_dev}}/api/products",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_dev}}/api/products/:id",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"products",
+										":id"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find By Category Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_dev}}/api/products?categoryId=",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"products"
+									],
+									"query": [
+										{
+											"key": "categoryId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Produto Teste\",\r\n    \"description\": \"Descrição do Produto Teste...\",\r\n    \"price\": 2000,\r\n    \"categoryId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_dev}}/api/products",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Atualização de Categoria\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_dev}}/api/products/2",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_dev}}/api/products/2",
+									"host": [
+										"{{base_url_dev}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Inventory-Service",
+			"item": [
+				{
+					"name": "Get All Inventory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_dev}}/api/inventory/all",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock By Product Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_dev}}/api/inventory/:id",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4",
+									"description": "Product ID <Long>."
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Stock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/inventory/add",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reserve Stock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2,\r\n    \"orderId\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/inventory/reserve",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"reserve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deduce Stock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/inventory/deduce",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"deduce"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Stock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/inventory/reset",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"inventory",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order-Service",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"items\": [\r\n        {\r\n            \"productId\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 120\r\n        },\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2,\r\n            \"price\": 200\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/order",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/order/:id",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "UUID from Order."
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/order?userId=1&status=CREATED",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"order"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "CREATED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_dev}}/api/order/:id/cancel",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"order",
+								":id",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "UUID from Order."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment-Service",
+			"item": [
+				{
+					"name": "Pay (PIX)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"\",\r\n    \"userId\": 1,\r\n    \"method\": \"PIX\",\r\n    \"amount\": 1580\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/payment",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay (TICKET)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"\",\r\n    \"userId\": 1,\r\n    \"method\": \"TICKET\",\r\n    \"amount\": 1580\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/payment",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay (CREDIT_CARD)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"\",\r\n    \"userId\": 1,\r\n    \"method\": \"CREDIT_CARD\",\r\n    \"amount\": 1580,\r\n    \"cardDetails\": {\r\n        \"cardNumber\": \"5576 2918 9659 1805\",\r\n        \"cardHolderName\": \"João Marcos da Silva\",\r\n        \"expiry\": \"05/26\",\r\n        \"cvv\": \"259\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/payment",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay (DEBIT_CARD)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"\",\r\n    \"userId\": 1,\r\n    \"method\": \"DEBIT_CARD\",\r\n    \"amount\": 1580,\r\n    \"cardDetails\": {\r\n        \"cardNumber\": \"5502 7023 9562 1173\",\r\n        \"cardHolderName\": \"João Marcos da Silva\",\r\n        \"expiry\": \"11/25\",\r\n        \"cvv\": \"529\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/payment",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification-Service",
+			"item": []
+		},
+		{
+			"name": "Api Gateway",
+			"item": [
+				{
+					"name": "Test Eureka",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080"
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYXV0aC1zZXJ2aWNlIiwic3ViIjoidmVuZGVkb3JAZW1haWwuY29tIiwic2NvcGVzIjoiVVNFUiIsImV4cCI6MTc1MTA2ODc1NywiaWF0IjoxNzUxMDY1MTU3fQ.WvjRnUYWHWXqEbStgb93CHf_NtCzlYya3czISlQslqw4IJfcfO7XCMVK7cHdKFanaBhkHwbFYKFqHiS88NHdqRY5U7S6X858-bSMEA_KyQAuftkKwaF2U-zfI48wnkCUxXunUvJQaxHJbJP4Ln6b0-73k3JOCuH9wNT9A6_YUIgfhTwPq9OFuTaGrWM07zY6XCJnkI1KkZFED46c8vBvFBOt-IXZ1JtVj4GRoG4V4Cwmo6GEfcoKSfiO75Uzq_PqU1lN867viR6lnskX4UhqjxIsOYX00V6sceVLHD_ZkEBBiHJLHMaO72uNQECzbc4rtMD5qZ2LeAp4U_RF0AyNFg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url_dev",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
