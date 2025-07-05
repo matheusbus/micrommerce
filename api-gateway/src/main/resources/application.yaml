@@ -8,6 +8,16 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
 spring:
   application:
     name: api-gateway
