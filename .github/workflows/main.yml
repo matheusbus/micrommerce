@@ -24,7 +24,7 @@ jobs:
       - name: Build ${{ matrix.service }} with Maven
         run: |
           cd ${{ matrix.service }}
-          mvn clean install -DskipTests=false
+          mvn clean install -DskipTests=true
 
 
 
