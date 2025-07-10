@@ -1,21 +1,21 @@
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\AuthServiceApplication.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\config\GlobalExceptionHandler.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\config\SecurityConfig.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\AuthController.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\PrivateController.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthRequest.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthResponse.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\ErrorResponse.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\RegisterRequest.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\UserDTO.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\ApiErrorResponse.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\InvalidJwtException.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\UserAlreadyExistsException.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\UserNotFoundException.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\model\User.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\model\UserAuthenticated.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\model\UserType.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\repository\UserRepository.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\service\AuthService.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\service\JwtService.java
-C:\Users\rdalm\OneDrive\Área de Trabalho\micrommerce\auth-service\src\main\java\com\esw\authservice\service\UserDetailsServiceImpl.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\AuthServiceApplication.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\config\GlobalExceptionHandler.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\config\SecurityConfig.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\AuthController.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\PrivateController.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthRequest.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthResponse.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\ErrorResponse.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\RegisterRequest.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\UserDTO.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\ApiErrorResponse.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\InvalidJwtException.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\UserAlreadyExistsException.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\exception\UserNotFoundException.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\model\User.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\model\UserAuthenticated.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\model\UserType.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\repository\UserRepository.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\service\AuthService.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\service\JwtService.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\service\UserDetailsServiceImpl.java
