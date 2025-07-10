@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth-service, product-service, inventory-service, order-service, payment-service]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'openjdk'
+
+      - name: Build ${{ matrix.service }} with Maven
+        run: |
+          cd ${{ matrix.service }}
+          mvn clean install -DskipTests=false
+
+
+
+  docker-build-and-push:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth-service, product-service, inventory-service, order-service, payment-service, api-gateway]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t {{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest ./${{ matrix.service }}
+
+      - name: Push to DockerHub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker push your-dockerhub-username/${{ matrix.service }}:latest
