@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [auth-service, product-service, inventory-service, order-service, payment-service]
+        service: [auth-service] #, product-service, inventory-service, order-service, payment-service]
     steps:
       - uses: actions/checkout@v3
 
@@ -24,16 +24,25 @@ jobs:
       - name: Build ${{ matrix.service }} with Maven
         run: |
           cd ${{ matrix.service }}
-          mvn clean install -DskipTests=true
+          mvn clean install -DskipTests=false
 
+      - name: Run tests and generate coverage with JaCoCo
+        run: |
+          cd ${{ matrix.service }}
+          mvn test jacoco:report
 
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: ${{ matrix.service }}/target/site/jacoco/jacoco.csv
+          badges-directory: ${{ matrix.service }}/target/badges
 
   docker-build-and-push:
     needs: build-and-test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [auth-service, product-service, inventory-service, order-service, payment-service, api-gateway]
+        service: [auth-service] #, product-service, inventory-service, order-service, payment-service, api-gateway]
     steps:
       - uses: actions/checkout@v3
 
