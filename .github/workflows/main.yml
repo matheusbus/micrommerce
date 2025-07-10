@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t {{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest ./${{ matrix.service }}
+          docker build -t matheusbus/${{ matrix.service }}:latest ./${{ matrix.service }}
 
       - name: Push to DockerHub
         run: |
