@@ -1,1 +1,5 @@
 com\esw\authservice\AuthServiceApplicationTests.class
+com\esw\authservice\service\AuthServiceTest.class
+com\esw\authservice\controller\AuthControllerTest.class
+com\esw\authservice\model\UserTest.class
+com\esw\authservice\repository\UserRepositoryTest.class

@@ -25,6 +25,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -40,7 +41,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, Environment env) throws Exception {
-        boolean isDevProfile = profile.equals(Profiles.of("dev").toString());
+        boolean isDevProfile = env.acceptsProfiles(Profiles.of("dev", "test"));
+        System.out.println("Active profiles: " + Arrays.toString(env.getActiveProfiles()));
 
         if(isDevProfile) {
             http

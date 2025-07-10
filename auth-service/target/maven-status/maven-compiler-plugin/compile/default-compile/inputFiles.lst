@@ -1,6 +1,7 @@
 C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\AuthServiceApplication.java
 C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\config\GlobalExceptionHandler.java
 C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\config\SecurityConfig.java
+C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\config\SecurityTestConfig.java
 C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\AuthController.java
 C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\controller\PrivateController.java
 C:\dev\micrommerce\auth-service\src\main\java\com\esw\authservice\dto\AuthRequest.java

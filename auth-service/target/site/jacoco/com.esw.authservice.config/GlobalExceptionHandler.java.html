@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">auth-service</a> &gt; <a href="index.source.html" class="el_package">com.esw.authservice.config</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.esw.authservice.config;
+
+import com.esw.authservice.dto.ErrorResponse;
+import com.esw.authservice.exception.ApiErrorResponse;
+import com.esw.authservice.exception.InvalidJwtException;
+import com.esw.authservice.exception.UserAlreadyExistsException;
+import com.esw.authservice.exception.UserNotFoundException;
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@ControllerAdvice
+<span class="fc" id="L20">public class GlobalExceptionHandler {</span>
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleUserNotFoundException(UserNotFoundException ex) {
+<span class="nc" id="L24">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());</span>
+<span class="nc" id="L25">        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);</span>
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+<span class="nc" id="L30">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());</span>
+<span class="nc" id="L31">        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);</span>
+    }
+
+    @ExceptionHandler(InvalidJwtException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleInvalidJwtException(InvalidJwtException ex) {
+<span class="nc" id="L36">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());</span>
+<span class="nc" id="L37">        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);</span>
+    }
+
+    // Lança exceção se houver alguma violação a nível de DTO
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;ApiErrorResponse&gt; handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+<span class="nc" id="L43">        List&lt;ApiErrorResponse.FieldError&gt; errors = ex.getBindingResult().getFieldErrors().stream()</span>
+<span class="nc" id="L44">                .map(err -&gt; new ApiErrorResponse.FieldError(err.getField(), err.getDefaultMessage()))</span>
+<span class="nc" id="L45">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L47">        return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="nc" id="L48">                .body(new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), &quot;Validation failed&quot;, errors));</span>
+    }
+
+    // Lança exceção se houver alguma violação a nível da Entidade (necessário chamar a validação)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity&lt;ApiErrorResponse&gt; handleConstraintViolation(ConstraintViolationException ex) {
+<span class="nc" id="L54">        List&lt;ApiErrorResponse.FieldError&gt; errors = ex.getConstraintViolations().stream()</span>
+<span class="nc" id="L55">                .map(v -&gt; new ApiErrorResponse.FieldError(</span>
+<span class="nc" id="L56">                        v.getPropertyPath().toString(), v.getMessage()))</span>
+<span class="nc" id="L57">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L59">        return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="nc" id="L60">                .body(new ApiErrorResponse(400, &quot;Validation failed&quot;, errors));</span>
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity&lt;Map&lt;String, String&gt;&gt; handleRuntime(RuntimeException ex) {
+<span class="nc" id="L65">        return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="nc" id="L66">                .body(Map.of(&quot;error&quot;, ex.getMessage()));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

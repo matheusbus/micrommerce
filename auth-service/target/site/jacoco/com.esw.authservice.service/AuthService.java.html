@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">auth-service</a> &gt; <a href="index.source.html" class="el_package">com.esw.authservice.service</a> &gt; <span class="el_source">AuthService.java</span></div><h1>AuthService.java</h1><pre class="source lang-java linenums">package com.esw.authservice.service;
+
+import com.esw.authservice.dto.AuthRequest;
+import com.esw.authservice.dto.AuthResponse;
+import com.esw.authservice.dto.RegisterRequest;
+import com.esw.authservice.dto.UserDTO;
+import com.esw.authservice.exception.UserAlreadyExistsException;
+import com.esw.authservice.exception.UserNotFoundException;
+import com.esw.authservice.model.User;
+import com.esw.authservice.model.UserType;
+import com.esw.authservice.repository.UserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+@Service
+public class AuthService {
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+
+<span class="fc" id="L28">    public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {</span>
+<span class="fc" id="L29">        this.jwtService = jwtService;</span>
+<span class="fc" id="L30">        this.passwordEncoder = passwordEncoder;</span>
+<span class="fc" id="L31">        this.userRepository = userRepository;</span>
+<span class="fc" id="L32">        this.authenticationManager = authenticationManager;</span>
+<span class="fc" id="L33">    }</span>
+
+    public AuthResponse authenticate(AuthRequest request) {
+<span class="fc" id="L36">        User user = userRepository.findByEmail(request.email())</span>
+<span class="fc" id="L37">                .orElseThrow(() -&gt; new UserNotFoundException(request.email()));</span>
+
+<span class="fc" id="L39">        Authentication authentication = authenticationManager.authenticate(</span>
+                new UsernamePasswordAuthenticationToken(
+<span class="fc" id="L41">                        request.email(),</span>
+<span class="fc" id="L42">                        request.password()</span>
+                )
+        );
+
+<span class="fc" id="L46">        String token = jwtService.generateToken(authentication);</span>
+
+<span class="fc" id="L48">        return new AuthResponse(&quot;User logged in successfully&quot;, new UserDTO(user), token);</span>
+    }
+
+    public AuthResponse register(RegisterRequest request) {
+<span class="fc" id="L52">        addNewUser(request);</span>
+
+<span class="fc" id="L54">        User user = userRepository.findByEmail(request.email())</span>
+<span class="pc" id="L55">                .orElseThrow(() -&gt; new UserNotFoundException(request.email()));</span>
+
+<span class="fc" id="L57">        Authentication authentication = authenticationManager.authenticate(</span>
+                new UsernamePasswordAuthenticationToken(
+<span class="fc" id="L59">                        request.email(),</span>
+<span class="fc" id="L60">                        request.password()</span>
+                )
+        );
+<span class="fc" id="L63">        String token = jwtService.generateToken(authentication);</span>
+
+<span class="fc" id="L65">        return new AuthResponse(&quot;User registered successfully&quot;, new UserDTO(user), token);</span>
+    }
+
+    public Jwt validateToken(String token) {
+<span class="fc" id="L69">        return jwtService.validateToken(token);</span>
+    }
+
+    private boolean validateIfUserExists(String userEmail) {
+<span class="fc" id="L73">        return userRepository.findByEmail(userEmail).isPresent();</span>
+    }
+
+    private void addNewUser(RegisterRequest request) {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if(validateIfUserExists(request.email())) {</span>
+<span class="fc" id="L78">            throw new UserAlreadyExistsException(request.email());</span>
+        }
+
+<span class="fc" id="L81">        User user = new User();</span>
+<span class="fc" id="L82">        user.setUsername(request.username());</span>
+<span class="fc" id="L83">        user.setEmail(request.email());</span>
+<span class="fc" id="L84">        user.setPassword(passwordEncoder.encode(request.password()));</span>
+<span class="fc" id="L85">        user.setActive(true);</span>
+<span class="fc" id="L86">        user.setRole(&quot;USER&quot;);</span>
+<span class="fc" id="L87">        user.setType(UserType.valueOf(request.type()));</span>
+<span class="fc" id="L88">        user.setCreatedAt(Date.from(java.time.Instant.now()));</span>
+<span class="fc" id="L89">        userRepository.save(user);</span>
+<span class="fc" id="L90">    }</span>
+
+    public UserDTO getUserFromToken(Jwt jwt) {
+<span class="fc" id="L93">        String email = jwt.getSubject();</span>
+
+<span class="fc" id="L95">        User user = userRepository.findByEmail(email)</span>
+<span class="fc" id="L96">                .orElseThrow(() -&gt; new UserNotFoundException(email));</span>
+
+<span class="fc" id="L98">        return new UserDTO(user);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

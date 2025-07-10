@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">auth-service</a> &gt; <a href="index.source.html" class="el_package">com.esw.authservice.service</a> &gt; <span class="el_source">JwtService.java</span></div><h1>JwtService.java</h1><pre class="source lang-java linenums">package com.esw.authservice.service;
+
+import com.esw.authservice.exception.InvalidJwtException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.*;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.stream.Collectors;
+
+@Service
+public class JwtService {
+    private final JwtEncoder jwtEncoder;
+    private final JwtDecoder jwtDecoder;
+
+<span class="fc" id="L17">    public JwtService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {</span>
+<span class="fc" id="L18">        this.jwtEncoder = jwtEncoder;</span>
+<span class="fc" id="L19">        this.jwtDecoder = jwtDecoder;</span>
+<span class="fc" id="L20">    }</span>
+
+    public String generateToken(Authentication authentication) {
+<span class="nc" id="L23">        Instant now = Instant.now();</span>
+<span class="nc" id="L24">        long expiry = 3600L;</span>
+
+<span class="nc" id="L26">        String scopes = authentication.getAuthorities().stream()</span>
+<span class="nc" id="L27">            .map(GrantedAuthority::getAuthority)</span>
+<span class="nc" id="L28">            .collect(Collectors.joining(&quot; &quot;));</span>
+
+<span class="nc" id="L30">        var claims = JwtClaimsSet.builder()</span>
+<span class="nc" id="L31">            .issuer(&quot;http://auth-service&quot;)</span>
+<span class="nc" id="L32">            .issuedAt(now)</span>
+<span class="nc" id="L33">            .expiresAt(now.plusSeconds(expiry))</span>
+<span class="nc" id="L34">            .subject(authentication.getName())</span>
+<span class="nc" id="L35">            .claim(&quot;scopes&quot;, scopes)</span>
+<span class="nc" id="L36">            .build();</span>
+
+<span class="nc" id="L38">        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();</span>
+    }
+
+    public Jwt validateToken(final String token) {
+        try {
+<span class="nc" id="L43">            Jwt jwt = jwtDecoder.decode(token);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            if (!&quot;http://auth-service&quot;.equals(jwt.getIssuer().toString())) {</span>
+<span class="nc" id="L45">                throw new InvalidJwtException(&quot;Invalid token issuer.&quot;);</span>
+            }
+<span class="nc" id="L47">            return jwt;</span>
+<span class="nc" id="L48">        } catch (JwtException ex) {</span>
+<span class="nc" id="L49">            throw new InvalidJwtException(&quot;Token is not valid or expired.&quot;, ex);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

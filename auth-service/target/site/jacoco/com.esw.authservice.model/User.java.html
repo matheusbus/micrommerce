@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">auth-service</a> &gt; <a href="index.source.html" class="el_package">com.esw.authservice.model</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.esw.authservice.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.util.Date;
+import java.util.Objects;
+
+@Entity
+@Table(name = &quot;USERS&quot;)
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;username&quot;)
+    @NotBlank(message = &quot;Username cannot be blank&quot;)
+    @Size(min = 5, max = 30, message = &quot;Username must be between 5 and 30 characters&quot;)
+    private String username;
+
+    @Column(name = &quot;email&quot;, unique = true)
+    @NotBlank(message = &quot;Email cannot be blank&quot;)
+    @Email(message = &quot;Invalid email format&quot;)
+    private String email;
+
+    @NotBlank(message = &quot;Password cannot be blank&quot;)
+    @JsonIgnore
+    private String password;
+
+    private String role;
+
+    @ColumnDefault(value = &quot;true&quot;)
+    private boolean active;
+
+    @Column(name = &quot;type&quot;)
+    private Short type;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @ColumnDefault(value = &quot;CURRENT_TIMESTAMP&quot;)
+    private Date createdAt;
+
+<span class="fc" id="L47">    public User() {}</span>
+
+<span class="fc" id="L49">    public User(Long id, String username, String email, String password, String role, UserType type, boolean active, Date createdAt) {</span>
+<span class="fc" id="L50">        this.id = id;</span>
+<span class="fc" id="L51">        this.username = username;</span>
+<span class="fc" id="L52">        this.email = email;</span>
+<span class="fc" id="L53">        this.password = password;</span>
+<span class="fc" id="L54">        this.role = role;</span>
+<span class="fc" id="L55">        this.type = type.getValue();</span>
+<span class="fc" id="L56">        this.active = active;</span>
+<span class="fc" id="L57">        this.createdAt = createdAt;</span>
+<span class="fc" id="L58">    }</span>
+
+    public Long getId() {
+<span class="fc" id="L61">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L65">        this.id = id;</span>
+<span class="fc" id="L66">    }</span>
+
+    public String getUsername() {
+<span class="fc" id="L69">        return username;</span>
+    }
+
+    public void setUsername(String name) {
+<span class="fc" id="L73">        this.username = name;</span>
+<span class="fc" id="L74">    }</span>
+
+    public String getEmail() {
+<span class="fc" id="L77">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L81">        this.email = email;</span>
+<span class="fc" id="L82">    }</span>
+
+    public String getPassword() {
+<span class="fc" id="L85">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="fc" id="L89">        this.password = password;</span>
+<span class="fc" id="L90">    }</span>
+
+    public String getRole() {
+<span class="fc" id="L93">        return role;</span>
+    }
+
+    public void setRole(String role) {
+<span class="fc" id="L97">        this.role = role;</span>
+<span class="fc" id="L98">    }</span>
+
+    public UserType getType() {
+<span class="fc" id="L101">        return UserType.valueOf(type);</span>
+    }
+
+    public void setType(UserType type) {
+<span class="fc" id="L105">        this.type = type.getValue();</span>
+<span class="fc" id="L106">    }</span>
+
+    public boolean isActive() {
+<span class="fc" id="L109">        return active;</span>
+    }
+
+    public void setActive(boolean active) {
+<span class="fc" id="L113">        this.active = active;</span>
+<span class="fc" id="L114">    }</span>
+
+    public Date getCreatedAt() {
+<span class="fc" id="L117">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(Date createdAt) {
+<span class="fc" id="L121">        this.createdAt = createdAt;</span>
+<span class="fc" id="L122">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L126" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L127">        User user = (User) o;</span>
+<span class="fc" id="L128">        return Objects.equals(id, user.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L133">        return Objects.hashCode(id);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L138">        return &quot;User{&quot; +</span>
+                &quot;id=&quot; + id +
+                &quot;, username='&quot; + username + '\'' +
+                &quot;, email='&quot; + email + '\'' +
+                &quot;, password='&quot; + password + '\'' +
+                &quot;, role='&quot; + role + '\'' +
+                &quot;, active=&quot; + active +
+                &quot;, type=&quot; + type +
+                &quot;, createdAt=&quot; + createdAt +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

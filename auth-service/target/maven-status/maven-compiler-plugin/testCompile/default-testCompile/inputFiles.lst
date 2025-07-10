@@ -1,1 +1,5 @@
 C:\dev\micrommerce\auth-service\src\test\java\com\esw\authservice\AuthServiceApplicationTests.java
+C:\dev\micrommerce\auth-service\src\test\java\com\esw\authservice\controller\AuthControllerTest.java
+C:\dev\micrommerce\auth-service\src\test\java\com\esw\authservice\model\UserTest.java
+C:\dev\micrommerce\auth-service\src\test\java\com\esw\authservice\repository\UserRepositoryTest.java
+C:\dev\micrommerce\auth-service\src\test\java\com\esw\authservice\service\AuthServiceTest.java

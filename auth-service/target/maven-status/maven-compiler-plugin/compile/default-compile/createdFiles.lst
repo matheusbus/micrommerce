@@ -1,4 +1,5 @@
 com\esw\authservice\model\UserType.class
+com\esw\authservice\config\SecurityTestConfig.class
 com\esw\authservice\dto\AuthResponse.class
 com\esw\authservice\exception\ApiErrorResponse$FieldError.class
 com\esw\authservice\exception\InvalidJwtException.class
