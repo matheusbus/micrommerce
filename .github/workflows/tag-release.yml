@@ -1,20 +1,15 @@
-name: CI/CD Pipeline
+name: Tag Release
 
 on:
-  push:
-    branches:
-      - main
-
-env:
-  REGISTRY: docker.io
-  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
+  workflow_dispatch:
 
 jobs:
   tag-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v3
@@ -22,16 +17,20 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Extract version from pom.xml (root or pick one service)
+      - name: Extract version from pom.xml
         id: version
         run: |
           VERSION=$(mvn -f ./auth-service/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Create and push Git tag
+      - name: Configure Git
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Create and push Git tag
+        run: |
           git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
           git push origin "v${{ steps.version.outputs.version }}"
