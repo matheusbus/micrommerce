@@ -60,3 +60,19 @@ spring:
             - Path=/api/payment/**
           filters:
             - AuthenticationFilter
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: auth-service
+        url: /auth-service/v1/api-docs
+      - name: product-service
+        url: /product-service/v1/api-docs
+      - name: inventory-service
+        url: /inventory-service/v1/api-docs
+      - name: order-service
+        url: /order-service/v1/api-docs
+      - name: payment-service
+        url: /payment-service/v1/api-docs

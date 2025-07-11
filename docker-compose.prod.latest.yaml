@@ -1,0 +1,144 @@
+networks:
+  micrommerce-network:
+    driver: bridge
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - micrommerce-network 
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - micrommerce-network 
+
+  eureka-server:
+    image: matheusbus/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - micrommerce-network      
+
+  auth-service:
+    container_name: auth-service
+    image: matheusbus/auth-service:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - eureka-server
+    networks:
+      - micrommerce-network      
+
+  product-service:
+    container_name: product-service
+    image: matheusbus/product-service:latest
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - eureka-server
+    networks:
+      - micrommerce-network      
+
+  inventory-service:
+    container_name: inventory-service
+    image: matheusbus/inventory-service:latest
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - kafka
+      - eureka-server
+    networks:
+      - micrommerce-network
+
+  order-service:
+    container_name: order-service
+    image: matheusbus/order-service:latest
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - kafka
+      - eureka-server
+    networks:
+      - micrommerce-network
+
+  payment-service:
+    container_name: payment-service
+    image: matheusbus/payment-service:latest
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - kafka
+      - eureka-server
+    networks:
+      - micrommerce-network
+
+  api-gateway:
+    container_name: api-gateway
+    image: matheusbus/api-gateway:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - eureka-server
+      - auth-service
+      - product-service
+      - inventory-service
+      - order-service
+      - payment-service
+    networks:
+      - micrommerce-network
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - micrommerce-network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - micrommerce-network
+
+volumes:
+  grafana-data:
