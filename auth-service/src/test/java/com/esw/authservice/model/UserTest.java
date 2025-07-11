@@ -5,6 +5,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Deve criar usuário e verificar getters")
     void testUserCreationAndGetters() {
         Date now = new Date();
         User user = new User(
@@ -47,6 +49,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Deve validar equals e hashCode com mesmos IDs")
     void testEqualsAndHashCode() {
         User user1 = new User();
         user1.setId(1L);
@@ -59,6 +62,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Deve validar usuário válido sem violações")
     void testValidation_validUser_noViolations() {
         User user = new User();
         user.setUsername("matheusb");
@@ -74,6 +78,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Deve validar usuário inválido com violações presentes")
     void testValidation_invalidUser_violationsPresent() {
         User user = new User();
         user.setUsername("ab");

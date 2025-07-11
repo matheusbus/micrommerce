@@ -29,22 +29,22 @@ services:
       - micrommerce-network 
 
   eureka-server:
-    image: matheusbus/eureka-server:1.0.0
+    build: ./eureka-server
     container_name: eureka-server
     ports:
       - "8761:8761"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     networks:
       - micrommerce-network      
 
   auth-service:
     container_name: auth-service
-    image: matheusbus/auth-service:1.0.0
+    build: ./auth-service
     ports:
       - "8081:8081"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - eureka-server
     networks:
@@ -52,11 +52,11 @@ services:
 
   product-service:
     container_name: product-service
-    image: matheusbus/product-service:1.0.0
+    build: ./product-service
     ports:
       - "8082:8082"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - eureka-server
     networks:
@@ -64,11 +64,11 @@ services:
 
   inventory-service:
     container_name: inventory-service
-    image: matheusbus/inventory-service:1.0.0
+    build: ./inventory-service
     ports:
       - "8083:8083"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - kafka
       - eureka-server
@@ -77,11 +77,11 @@ services:
 
   order-service:
     container_name: order-service
-    image: matheusbus/order-service:1.0.0
+    build: ./order-service
     ports:
       - "8084:8084"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - kafka
       - eureka-server
@@ -90,11 +90,11 @@ services:
 
   payment-service:
     container_name: payment-service
-    image: matheusbus/payment-service:1.0.0
+    build: ./payment-service
     ports:
       - "8085:8085"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - kafka
       - eureka-server
@@ -102,12 +102,12 @@ services:
       - micrommerce-network
 
   api-gateway:
+    build: ./api-gateway
     container_name: api-gateway
-    image: matheusbus/api-gateway-service:1.0.0
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - eureka-server
       - auth-service

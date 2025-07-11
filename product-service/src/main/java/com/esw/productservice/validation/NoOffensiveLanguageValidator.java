@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // See: https://medium.com/@himani.prasad016/validations-in-spring-boot-e9948aa6286b
-// To implement validation for abuse products and categories names and descriptions
+// Implementation reference to validation for abuse products and categories names and descriptions
 public class NoOffensiveLanguageValidator implements ConstraintValidator<NoOffensiveLanguage, String> {
 
     private Pattern pattern;

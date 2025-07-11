@@ -54,11 +54,17 @@ public class Product {
         }
     }
 
-    public Product() {}
+    public Product() {
+        generatePublicId();
+    }
 
     public Product(Long id, UUID publicId, String name, String description, BigDecimal price, boolean active, Date createdAt, Category category) {
         this.id = id;
-        this.publicId = publicId;
+        if (publicId == null) {
+            generatePublicId();
+        } else {
+            this.publicId = publicId;
+        }
         this.name = name;
         this.description = description;
         this.price = price;

@@ -43,7 +43,7 @@ public class AuthControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("Deve retornar sucesso ao realizar login")
+    @DisplayName("POST /api/auth/login - Deve autenticar usuário com sucesso")
     void shouldAuthenticateUserSuccessfully() throws Exception {
         AuthRequest request = new AuthRequest("user@email.com", "123456");
 
@@ -68,7 +68,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("Deve registrar um novo usuário")
+    @DisplayName("POST /api/auth/register - Deve registrar novo usuário com sucesso")
     void shouldRegisterUserSuccessfully() throws Exception {
         RegisterRequest request = new RegisterRequest("userbuyer", "user@email.com", "123456", (short) 1);
 
@@ -93,7 +93,7 @@ public class AuthControllerTest {
 
     @Test
     @WithMockUser(username = "user@email.com")
-    @DisplayName("Deve retornar e-mail do usuário autenticado na rota /me")
+    @DisplayName("GET /api/auth/me - Deve retornar e-mail do usuário autenticado")
     void shouldReturnAuthenticatedUsername() throws Exception {
         mockMvc.perform(get("/api/auth/me"))
                 .andExpect(status().isOk())

@@ -1,4 +1,4 @@
-version: '3.8'  # Remova '2', pois está obsoleto
+version: '3.8'
 
 services:
   zookeeper:
