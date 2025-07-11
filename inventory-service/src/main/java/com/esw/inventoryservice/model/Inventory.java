@@ -38,8 +38,13 @@ public class Inventory {
     }
 
     public void release(int quantity) {
-        reserved = Math.max(0, reserved - quantity);
-        available += quantity;
+        if (quantity >= reserved) {
+            available += reserved;
+            reserved = 0;
+        } else {
+            reserved -= quantity;
+            available += quantity;
+        }
     }
 
     public void reset() {

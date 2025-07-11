@@ -1,17 +1,39 @@
 spring:
   # DATASOURCE
   datasource:
-    url: jdbc:postgresql://localhost:5432/paymentdb
-    username: postgres
-    password: rW4HVG1r?4bI
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
 
   # JPA, SQL
   jpa:
-    hibernate:
-      ddl-auto: update
+    defer-datasource-initialization: true
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+  # H2 CLIENT
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  kafka:
+    bootstrap-servers: kafka:9092 # para rodar a aplicação
+    #bootstrap-servers: localhost:9092 # para testar só esse serviço
+    consumer:
+      group-id: payment-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        retry.backoff.ms: 5000
+        reconnect.backoff.ms: 5000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
