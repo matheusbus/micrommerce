@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [auth-service] #, product-service, inventory-service, order-service, payment-service]
+        service: [auth-service]
     steps:
       - uses: actions/checkout@v3
 
@@ -29,11 +29,15 @@ jobs:
           distribution: 'temurin'
 
       - name: Extract version from pom.xml
-        id: version
         run: |
           VERSION=$(mvn -f ./${{ matrix.service }}/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "$VERSION" > version.txt
+
+      - name: Upload version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-${{ matrix.service }}
+          path: version.txt
 
       - name: Build ${{ matrix.service }} with Maven
         run: |
@@ -56,20 +60,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [auth-service] #, product-service, inventory-service, order-service, payment-service, api-gateway]
+        service: [auth-service]
     steps:
       - uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
         run: echo "${{ env.DOCKER_PASS }}" | docker login -u "${{ env.DOCKER_USER }}" --password-stdin
 
+      - name: Download version artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: version-${{ matrix.service }}
+
+      - name: Read version from file
+        id: read_version
+        run: |
+          VERSION=$(cat version.txt)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Build Docker image with version and latest tag
         run: |
           IMAGE=${{ env.DOCKER_USER }}/${{ matrix.service }}
-          docker build -t $IMAGE:${{ steps.version.outputs.version }} -t $IMAGE:latest ./${{ matrix.service }}
+          VERSION=${{ steps.read_version.outputs.version }}
+          docker build -t $IMAGE:$VERSION -t $IMAGE:latest ./${{ matrix.service }}
 
       - name: Push Docker image
         run: |
           IMAGE=${{ env.DOCKER_USER }}/${{ matrix.service }}
-          docker push $IMAGE:${{ steps.version.outputs.version }}
+          VERSION=${{ steps.read_version.outputs.version }}
+          docker push $IMAGE:$VERSION
           docker push $IMAGE:latest
